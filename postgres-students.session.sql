@@ -7,7 +7,7 @@ CREATE TABLE users(
     gender VARCHAR(30) NOT NULL CONSTRAINT gender_not_empty CHECK ( gender !=''),
     is_subscribe boolean NOT NULL,
     birhday date CONSTRAINT birhday_current_date CHECK(birhday <= current_date),
-    foot_size smallint,
+    foot_size smallint CHECK(foot_size >0),
     height numeric(5,2) CONSTRAINT too_high_user CHECK(height <2.4)
 );
 
@@ -20,6 +20,6 @@ INSERT INTO users VALUES
 ('Draco','Doe','sadsaw@dsaewqwwww.com','Male',false,'2002.01.25',45,2.3);
 
 INSERT INTO users VALUES
-('Peter','Parcker','qwes@ewqe.redsadsadsaws','Female',true,'2025.02.19',40,1.70);
+('Peter','Parcker','qwes@ewqe.redsadsadsaws','Female',true,'2025.02.19',10,1.70);
 
 -- CONSTRAINT 
