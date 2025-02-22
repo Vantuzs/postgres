@@ -1,25 +1,25 @@
-DROP TABLE users;
+DROP TABLE messages
 
-CREATE TABLE users(
-    first_name VARCHAR(64) NOT NULL CONSTRAINT first_name_not_empty CHECK (first_name !=''),
-    last_name VARCHAR(64) NOT NULL CONSTRAINT last_name_not_empty CHECK (last_name !=''),
-    email varchar(64) NOT NULL CONSTRAINT email_not_empty CHECK (email !='') UNIQUE,
-    gender VARCHAR(30) NOT NULL CONSTRAINT gender_not_empty CHECK ( gender !=''),
-    is_subscribe boolean NOT NULL,
-    birhday date CONSTRAINT birhday_current_date CHECK(birhday <= current_date),
-    foot_size smallint CHECK(foot_size >0),
-    height numeric(5,2) CONSTRAINT too_high_user CHECK(height <2.4)
+CREATE TABLE messages(
+    id serial PRIMARY KEY,
+    body text NOT NULL CHECK (body !=''),
+    author varchar(256) NOT NULL CHECK (author !=''),
+    created_at timestamp DEFAULT current_timestamp,
+    is_read boolean DEFAULT false
 );
 
-DROP TABLE users;
+INSERT INTO messages(author,body) VALUES('Hello JONATON','MEEEE');
 
+INSERT INTO messages (author,body) VALUES
+('Johnos','Hello BOBBA'),
+('Me','Go to GYM!'),
+('Johnos','OU YEEEESSSSSS!');
 
-INSERT INTO users VALUES
-('Suzan','Doe','qwes@ewqe.rews','Female',true,'2003.07.12',40,1.70),
-('Henry','Doe','sadsaw@dsawwww.com','Male',false,'2002.01.25',45,1.90),
-('Draco','Doe','sadsaw@dsaewqwwww.com','Male',false,'2002.01.25',45,2.3);
+INSERT INTO messages (author,body) VALUES
+('Peter','Hello'),
+('Peter','Hello');
 
-INSERT INTO users VALUES
-('Peter','Parcker','qwes@ewqe.redsadsadsaws','Female',true,'2025.02.19',10,1.70);
+INSERT INTO messages VALUES(10,'Text mess','NoName');
 
--- CONSTRAINT 
+--Ключ - ознака (чаще штучна) которая видризняе один рядок в таблице от другого
+-- Первинний ключ (PRIMARY KEY) - используестя для того, что бы ключу дать ограничение уникальности(UNIQUE) и ограничение NOT NULL
