@@ -1,69 +1,92 @@
+
 --Ключ - ознака (чаще штучна) которая видризняе один рядок в таблице от другого
+-- Потециальный ключ - столбец (группа столпцов) которые могли бы стать первинным ключем, но еще не выбраны как такие.
 -- Первинний ключ (PRIMARY KEY) - используестя для того, что бы ключу дать ограничение уникальности(UNIQUE) и ограничение NOT NULL
+-- Внешний ключ - столбец (группа столпцов) которые хранят значения, которые ссылаются на идетенфикаторы в других таблицах
+
+INSERT INTO users (
+    first_name,
+    last_name,
+    email,
+    gender,
+    is_subscribe,
+    birhday,
+    foot_size,
+    height
+  )
+VALUES (
+    'first_name:character varying',
+    'last_name:character varying',
+    'email:character varying',
+    'gender:character varying',
+    is_subscribe:boolean,
+    'birhday:date',
+    'foot_size:smallint',
+    height:numeric
+  );
+
+  ALTER TABLE books 
+
+  SELECT name FROM pg_timezone_names WHERE name ILIKE '%kyiv%';
+  SET TIMEZONE = 'UTC';
+
+    INSERT INTO users VALUES('ewqewq','ewqewq','ewewqq','dsaewqewq',true,'2020.11.22')
+    SHOW TIMEZONE;
+
+    DROP TABLE messages,books, coordinats
+    
+    TRUNCATE TABLE books,messages,users;
+
+    ALTER TABLE  ALTER COLUMN birhday TYPE TIMESTAMP;
+
+    ALTER TABLE users ALTER COLUMN birhday TYPE TIMESTAMP WITH TIME ZONE;
+
+    INSERT INTO books VALUES(12,12,'213','123','2020.12.22','32132','3213','321321',true)
 
 
-/* ALTER TABLE - Внесение изменений */
-DROP TABLE products;
-
-CREATE TABLE products(
-    id serial PRIMARY KEY,
-    brand varchar(200) NOT NULL CHECK (brand != ''),
-    model varchar(300) NOT NULL CHECK(model != ''),
-    description text,
-    category varchar(200) NOT NULL,
-    price numeric(10,2) NOT NULL CHECK(price >0),
-    discounted_price numeric(10,2) CHECK (discounted_price <=price)
-);
-
-
-CREATE TABLE books(
-    id serial PRIMARY KEY,
-    exzemplar int,
-    author varchar(100) NOT NULL CONSTRAINT author_need CHECK(author !=''),
-    book_name varchar(100) NOT NULL CONSTRAINT book_name_need CHECK(book_name !=''),
-    birthday date NOT NULL CONSTRAINT birthday_current_date CHECK(birthday <= current_date),
-    vidatniztvo varchar(200) CONSTRAINT vidatniztvo_need CHECK(vidatniztvo !=''),
-    category varchar(200) NOT NULL CONSTRAINT category_need CHECK(category !=''),
-    sinopsis varchar(200) NOT NULL CONSTRAINT sinopsis_need CHECK(sinopsis !=''),
-    book_status boolean NOT null
-)
-    --  PRIMARY KEY(author,book_name)
-
-DROP TABLE books
-
-INSERT INTO books(author,book_name,birthday,vidatniztvo,category,sinopsis,book_status) VALUES
-('SIGMA','SIGMA BOY LADN','2020.12.02','CHARIPORSKA','BOEVIK','serial',false)
-
-ALTER TABLE books
-ADD CONSTRAINT "exzemplar_by_need_positive" CHECK(exzemplar >0);
-
-ALTER TABLE books
-ADD CONSTRAINT "authod_name_books" UNIQUE(author,book_name)
 
 
 
-INSERT INTO products (brand,model,category,price) VALUES
-('IPHONE','15 PRO MAX SUPER PUPER MEGA GYGABYTE TERROBYTE HDMI EDITION','smartphones',201034.56),
-('Samsung','S55002231 SUPER ZOOM MEGA BLUM','smartphones', 1234.32),
-('Sony','A33222123','TV',500.88),
-('LG','GG322','TV',1488);
+    ----------------------------------------------------
 
 
-ALTER TABLE products
-ADD CONSTRAINT "unique_brand_model_pair" UNIQUE(brand,model) ;
+    CREATE TABLE orders(
+      id serial PRIMARY KEY,
+      created_at TIMESTAMP NOT NULL default current_timestamp,
+      customer_id int REFERENCES users(id)
+    )
+
+DROP TABLE orders
 
 
-INSERT INTO products (brand,model,category,price) VALUES
-('IPHONE','15 PRO MAX SUPER PUPER MEGA GYGABYTE TERROBYTE HDMI EDITION','smartphones',322.02);
+ALTER TABLE users
+ADD COLUMN id serial PRIMARY KEY;
 
-ALTER TABLE products
-ADD COLUMN quantity int;
 
-ALTER TABLE products
-ADD CONSTRAINT "products_quantity_check" CHECK(quantity >=0);
 
-ALTER TABLE products
-DROP CONSTRAINT "products_quantity_check";
+CREATE TABLE orders_to_products(
+  product_id int REFERENCES products(id),
+  order_id int REFERENCES orders(id),
+  quntity int,
+  PRIMARY KEY(order_id,product_id)
+) 
 
-ALTER TABLE products
-DROP COLUMN quantity
+-- таблица1_to_таблица2
+
+
+INSERT INTO users VALUES
+('JOHN','DIPUCHIRIANO','DESPUCHIRIANOKING@GMAIL.com','MAN',true,'2000.02.02',46,2.3,1)
+
+-- ОФОрмление заказа для какогото юзера
+
+
+--1 Создали заказ
+INSERT INTO orders(customer_id) VALUES
+(1)
+
+--2. Наполнить ЗАКАЗ! 
+
+INSERT INTO orders_to_products (product_id,order_id,quntity)
+VALUES (1,1,1),
+(3,1,2),
+(4,1,10);
