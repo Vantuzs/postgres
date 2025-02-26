@@ -29,22 +29,16 @@
  */
 
 
- CREATE TABLE contents(
+CREATE TABLE coaches(
   id serial PRIMARY KEY,
-  name varchar(256) NOT NULL CHECK(name !=''),
-  description text,
-  authhor_id int references users(id),
-  created_at TIMESTAMP default current_timestamp
- );
+  name varchar(256) CHECK(name !='') NOT NULL
+);
 
- CREATE TABLE reactions(
-  content_id int references contents(id),
-  user_id int references users(id),
-  is_liked boolean
- )
+CREATE TABLE teams(
+  id serial PRIMARY KEY,
+  name varchar(256) CHECK(name !='') NOT NULL,
+  coaches_id int REFERENCES coaches(id)
+)
 
- INSERT INTO contents(name,authhor_id) VALUES
- ('NIGGERS IN GYM',1)
-
- INSERT INTO reactions VALUES
- (1,2,true)
+ALTER TABLE coaches
+ADD COLUMN team_id int REFERENCES teams(id);
