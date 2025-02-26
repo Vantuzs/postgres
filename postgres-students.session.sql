@@ -75,7 +75,7 @@ CREATE TABLE orders_to_products(
 
 
 INSERT INTO users VALUES
-('JOHN','DIPUCHIRIANO','DESPUCHIRIANOKING@GMAIL.com','MAN',true,'2000.02.02',46,2.3,1)
+('LINOR','MARINOCSKI','SKOBODU@GMAIL.com','MAn',false,'2000.03.03',45,2,2)
 
 -- ОФОрмление заказа для какогото юзера
 
@@ -90,3 +90,49 @@ INSERT INTO orders_to_products (product_id,order_id,quntity)
 VALUES (1,1,1),
 (3,1,2),
 (4,1,10);
+
+
+
+---------------------------
+
+
+CREATE TABLE chats(
+  id serial PRIMARY KEY,
+  name varchar(100) NOT NULL CHECK(name != ''),
+  owner_id int REFERENCES users(id),
+  created_at TIMESTAMP default current_timestamp
+)
+
+INSERT INTO chats(name,owner_id) VALUES
+('superchat',2);
+
+
+
+CREATE TABLE chats_to_users(
+  chat_id int REFERENCES chats(id) ,
+  user_id int REFERENCES users(id),
+  join_at TIMESTAMP default current_timestamp,
+  PRIMARY KEY(chat_id,user_id)
+)
+
+INSERT INTO chats_to_users(chat_id,user_id) VALUES
+(3,2)
+
+CREATE TABLE messages(
+  id serial PRIMARY KEY,
+  body text NOT NULL CHECK(body !=''),
+  created_at TIMESTAMP default current_timestamp,
+  is_read boolean NOT NULL default false,
+  -- author_id int REFERENCES chats_to_users(user_id),
+  -- chat_id int REFERENCES chats_to_users(chat_id)
+  author_id int,
+  chat_id int,
+  FOREIGN KEY (author_id,chat_id) REFERENCES chats_to_users(user_id,chat_id)
+)
+
+INSERT INTO messages(body,author_id,chat_id) VALUES
+('LETS GOOOOOO BROTHER',1,3);
+
+
+
+DROP TABLE chats_to_users
