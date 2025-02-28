@@ -34,3 +34,16 @@ price <800 -> false
 
 ALTER TABLE products
 ADD COLUMN is_luxury boolean GENERATED ALWAYS AS (price > 800) STORED
+
+UPDATE products SET price = price* 3 WHERE price <1300;
+
+
+---
+
+INSERT INTO products (brand,model,price,category) VALUES
+('LG','SUPER MEGA MONITOR 5500',2520,'MONITOR') RETURNING id;
+
+INSERT INTO products (brand,model,price,category) VALUES
+('IPHONE','16PRO',50,'PHONE') RETURNING *;
+
+UPDATE products SET model = 'CHINA 14PRO DELICOTES' WHERE id = 8 RETURNING model,id
