@@ -1,4 +1,4 @@
-module.exports.mapUsers = (usersArray) => usersArray.map((currentUser)=>`('${currentUser.firstName}','${currentUser.lastName}','${currentUser.email}',${currentUser.isSubscribe},'${currentUser.gender}')`).join(',')
+module.exports.mapUsers = (usersArray) => usersArray.map(({name:{first,last},gender,email,})=>`('${first}','${last}','${email}',${Boolean(Math.random() > 0.5)},'${gender}')`).join(',')
 
 
 /* 
