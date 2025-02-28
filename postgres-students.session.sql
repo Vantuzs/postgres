@@ -4,41 +4,33 @@
 -- Первинний ключ (PRIMARY KEY) - используестя для того, что бы ключу дать ограничение уникальности(UNIQUE) и ограничение NOT NULL
 -- Внешний ключ - столбец (группа столпцов) которые хранят значения, которые ссылаются на идетенфикаторы в других таблицах
 
+
+
 /* 
 
-Задача: МИНИ-ЮТУБ
 
-Таблица контента: 
-- name,
-- описание,
-- автор (юзер, который создал контент),
-- дата создания
+В таблице products создать генерируемый столбец is_luxury
 
-
-таблица Реакции
-- is_liked:
-  - null - пользователь не ставил оценку
-  - true - контент лайкнули
-  - false - контент дизлайкнули
-
-
-У конента может быть много реакций от пользователей
-Реакции - связь между пользователем и контентом
+Если price > 800 -> true
+price <800 -> false
 
 
  */
 
+ CREATE TABLE products_version_2(
+    id serial PRIMARY KEY,
+    brand varchar(256) NOT NULL CHECK(brand!=''),
+    model varchar(256) NOT NULL CHECK(model!=''),
+    price numeric(8,2) NOT NULL,
+    is_luxury boolean GENERATED ALWAYS AS (price > 10000) STORED
+ );
+ 
+ INSERT INTO products_version_2 ( brand, model, price)
+ VALUES 
+ ('IPHONE','15PRO MAX DELICOTES',45000),
+ ('SAMSUNG','S3000',12000),
+ ('Xiaomi','T200 TURBO SUPER MEGA PRO EDITION',500)
 
-CREATE TABLE coaches(
-  id serial PRIMARY KEY,
-  name varchar(256) CHECK(name !='') NOT NULL
-);
 
-CREATE TABLE teams(
-  id serial PRIMARY KEY,
-  name varchar(256) CHECK(name !='') NOT NULL,
-  coaches_id int REFERENCES coaches(id)
-)
-
-ALTER TABLE coaches
-ADD COLUMN team_id int REFERENCES teams(id);
+ALTER TABLE products
+ADD COLUMN is_luxury boolean GENERATED ALWAYS AS (price > 800) STORED
