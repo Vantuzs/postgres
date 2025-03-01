@@ -1,29 +1,25 @@
-const {Client} = require('pg');
-const {mapUsers} = require('./utils');
-const {configs} = require('./configs');
+
+const {User,Product,client} =require('./models')
 const {getUsers} = require('./api');
+const {generatePhones} =require('./utils')
 
-const client = new Client(configs);
-
-
-const user = {
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'doe@gmail.com',
-    isSubscribe: true,
-    gender: 'male'
-}
 
 async function runRequest() {
     await client.connect();
 
     const usersArray = await getUsers()
 
-    const response = await client.query(
-        `INSERT INTO users_2 (first_name, last_name, email, is_subscribe,gender) VALUES
-        ${mapUsers(usersArray)}`
-    );
+    // Генератор юзеров
+    // const response = await User.bulkCreate(usersArray);
+    // console.log(response);
+
+
+    // Генератор товаров
+    const phonesArray = generatePhones(400);
+    const response = await Product.bulkCreate(phonesArray);
+    
     console.log(response);
+
     await client.end();
 }
 
