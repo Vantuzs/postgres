@@ -9,19 +9,19 @@ async function runRequest() {
 
     
     // Генератор юзеров
-    const usersArray = await getUsers()
-    const response1 = await User.bulkCreate(usersArray);
+    // const usersArray = await getUsers()
+    // const response1 = await User.bulkCreate(usersArray);
 
 
     // // Генератор товаров
-    const phonesArray = generatePhones(400);
-    const response2= await Product.bulkCreate(phonesArray);
+    // const phonesArray = generatePhones(400);
+    // const response2= await Product.bulkCreate(phonesArray);
 
 
     // Генератор заказов
-    const { rows: usersArrayForOrders } = await User.findAll(); // все юзеры с таблици users
-    const {rows: productsArray} = await Product.findAll(); // все товары с таблици products
-    const response = await Order.bulkCreate(usersArrayForOrders,productsArray)
+    // const { rows: usersArrayForOrders } = await User.findAll(); // все юзеры с таблици users
+    // const {rows: productsArray} = await Product.findAll(); // все товары с таблици products
+    // const response = await Order.bulkCreate(usersArrayForOrders,productsArray)
 
     
     // console.log(response);

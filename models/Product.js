@@ -1,3 +1,4 @@
+const _ = require('lodash');
 class Product {
     static _client;
     static _tableName;
