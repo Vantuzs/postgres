@@ -238,3 +238,30 @@ OFFSET 50; -- 50 *2
 
  */
 
+
+ ---------------------
+
+
+SELECT id,first_name || ' ' || last_name AS "full name",gender,email FROM users;
+
+SELECT id,concat(first_name, ' ',last_name) AS "full name",gender,email FROM users;
+
+
+/* 
+
+Задача: найти всех пользователей, полное имя которых (имя + фамилия) < 10 символов
+
+ */
+
+ -- вариант 1
+
+ SELECT id,concat(first_name, ' ',last_name) AS "full name",gender,email FROM users
+ WHERE char_length(concat(first_name,' ',last_name)) <10;
+
+-- вариант 2
+
+SELECT * FROM
+(
+    SELECT id,concat(first_name, ' ',last_name) AS "full name",gender,email FROM users
+) AS "FN"
+WHERE char_length("FN"."full name") < 10;
