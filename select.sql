@@ -194,3 +194,16 @@ ALTER TABLE users DROP COLUMN birhday;
 ----------------------------------------------
 -- make_interval([years],[mouths],[days]) - функция которая создает собственный интервал
 SELECT id, first_name,last_name,make_interval(40,5,18) FROM users;
+
+
+
+------------------------------------------------------------------
+
+-- Алиасы - Псевдонимы 
+-- Если хочешь переимонавать-назвать таблицу кирилицей то ставь "" д
+-- Если керилица - ОБЯЗАТЕЛЬНО берите в дв.вавычки
+-- Если латиница - можно и с кавычками и без
+SELECT first_name AS "Имя", last_name AS "Фамилия",id AS "Уникальный номер" FROM users;
+
+SELECT id, first_name,last_name,extract("years" from age(birthday)) AS "years old" FROM users
+WHERE extract("years" from age(birthday)) BETWEEN 2 AND 10;
