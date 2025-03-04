@@ -135,3 +135,25 @@ WHERE id = 4002
 
 SELECT * FROM users
 WHERE id = 4002
+
+
+--------------------------
+--dz
+
+CREATE TABLE employees(
+  id serial PRIMARY KEY,
+  name varchar(256) NOT NULL CHECK(name !=''),
+  salary int NOT NULL CHECK(salary >=0),
+  works_hours int NOT NULL CHECK(works_hours >=0)
+);
+
+INSERT INTO employees (name,salary,works_hours) VALUES
+('Ivanov',15000, 2),
+('Petrov',5,1500),
+('Beerdov',100500,170);
+
+---3
+
+UPDATE employees
+SET salary = salary *1.2 
+WHERE salary >150;
