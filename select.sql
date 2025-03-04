@@ -167,4 +167,30 @@ INSERT INTO users (first_name,last_name,email,gender,is_subscribe) VALUES
 ('Sigma','Boy','sigmaBoy2000@gmail.com','SIGMA',false) RETURNING *; ---6501 6502
 
 
-DELETE FROM users WHERE id = 6502
+DELETE FROM users WHERE id = 6502;
+
+
+
+----------------------------------
+
+-- Задача: вывести всех пользователей с информацией про них + возраст
+
+
+
+SELECT id, first_name,last_name,extract("years" from age(birthday) ) FROM users;
+
+
+UPDATE users 
+SET birthday = '2005-01-01'
+WHERE (gender = 'female' AND is_subscribe = true);
+
+ALTER TABLE users
+ADD COLUMN birthday timestamp
+
+ALTER TABLE users DROP COLUMN birhday; 
+
+
+
+----------------------------------------------
+-- make_interval([years],[mouths],[days]) - функция которая создает собственный интервал
+SELECT id, first_name,last_name,make_interval(40,5,18) FROM users;
