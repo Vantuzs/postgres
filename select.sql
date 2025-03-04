@@ -157,3 +157,14 @@ INSERT INTO employees (name,salary,works_hours) VALUES
 UPDATE employees
 SET salary = salary *1.2 
 WHERE salary >150;
+
+
+
+-----------------------------------------------------------------------------------------
+
+
+INSERT INTO users (first_name,last_name,email,gender,is_subscribe) VALUES
+('Sigma','Boy','sigmaBoy2000@gmail.com','SIGMA',false) RETURNING *; ---6501 6502
+
+
+DELETE FROM users WHERE id = 6502
