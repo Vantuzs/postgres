@@ -350,3 +350,46 @@ WHERE id = 1;
 
 DELETE FROM workers
 WHERE extract("years" from age(birhday)) >30
+
+
+
+
+
+--- Агрератные функции - функции, которые выполняют какуюто операцию над групой рядков и возвращают  одно-единое значение
+-- COUNT, SUM, AVG, MIN, MAX
+
+SELECT max(weight) FROM users
+
+SELECT min(weight) FROM users
+
+SELECT sum(weight) FROM users
+
+SELECT avg(weight) FROM users
+
+-- Подсчитать количество запросов в таблице
+
+SELECT count(id) FROM users
+
+-- НАйти средний вес мужчин и женщин. Отдельно мужчин отдельно женщин
+
+SELECT avg(weight),gender FROM users
+GROUP BY gender;
+
+
+/*  ВОТ ТУТ БУДЕТ ОШИБКА! ЗАпрашивать в SELECT мы можем тьолько те столбци, которые принимают участие в GROUP BY
+
+SELECT id,avg(weight),gender FROM users
+GROUP BY gender;
+
+ */
+
+-- НАйти средний вес мужчин
+
+SELECT avg(weight) FROM users
+WHERE gender = 'male';
+
+
+-- НАйти средий вес всех пользователей старших за 10 лет
+
+SELECT avg(weight) FROM users
+WHERE extract("years" from age(birthday)) >10;
