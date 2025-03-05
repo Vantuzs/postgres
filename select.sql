@@ -393,3 +393,29 @@ WHERE gender = 'male';
 
 SELECT avg(weight) FROM users
 WHERE extract("years" from age(birthday)) >10;
+
+
+
+-- Сортировка - упорядочивание данных за каким-то критерием
+
+-- ASC - по возрастанию(default)
+-- DESC - по понижению
+
+SELECT * FROM users
+ORDER BY birthday ASC,
+          first_name ASC;
+
+-- красиво оформленно по возрасту, тудутуту пиу
+SELECT *,extract("years" from age(birthday)) AS "vozrast" FROM users 
+ORDER BY vozrast DESC;
+
+UPDATE users
+SET birthday = '2002-09-14'
+WHERE id BETWEEN 4004 AND 4027;
+
+
+-- Вывести топ 3 телефона, которых у нас осталось найменьше
+
+SELECT * FROM products
+ORDER BY quantity ASC
+LIMIT 3;
