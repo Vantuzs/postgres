@@ -265,3 +265,88 @@ SELECT * FROM
     SELECT id,concat(first_name, ' ',last_name) AS "full name",gender,email FROM users
 ) AS "FN"
 WHERE char_length("FN"."full name") < 10;
+
+
+
+--- Практика
+/* 
+
+
+Задача:
+Создать таблицу workers:
+- id
+- name 
+- salary 
+- birthday
+
+1. Добавте работника с именем Олег, з/п 300
+2. Добавте работницу Ярослава, з/п 500
+3. Добавить двух новых работников одним запросом - 
+Саша, з/п 1000
+Маша, з/п 200
+4. Установить Олегу з/п 500
+5. Всем у кого з/п > 500, урезать з/п до 400
+6. Выбрать (Select) Всех работников, чья з/п > 400 
+7. Выбрать работника с id = 4
+8. Узнайте (SELECT) з/п и возраст Жени
+9. Попробывать найти работника с именем "Petya"
+10. Выбрать работников в возрасте 30 лет ИЛИ с з/п > 800
+WHERE _количество_лет_ = 30 OR salary > 800
+11. Выбрать всех работников в возрасте от 25 до 28 лет
+12. Выбрать всех работников, которые родились в Сентябре
+13. Удалить работника с id = 4
+14. Удалить Олега
+15. Удалить всех работников старших за 30 лет
+
+ */
+
+
+ CREATE TABLE workers(
+  id serial PRIMARY KEY,
+  name varchar(200) NOT NULL CHECK(name != ''),
+  salary int NOT NULL CHECK (salary >=0),
+  birhday timestamp
+ )
+
+ INSERT INTO workers(name,salary,birhday) VALUES
+ ('Oleg',300,'2000-05-05')
+
+INSERT INTO workers(name,salary,birhday) VALUES
+('Yaroslava',500,'1990-09-01');
+
+INSERT INTO workers(name,salary,birhday) VALUES
+('Alexhadnor',1000,'1995-09-12'),
+('Maria',200,'1999-02-28');
+
+UPDATE workers SET salary = 500 WHERE name = 'Oleg';
+
+UPDATE workers SET salary = 400 WHERE salary > 500;
+
+SELECT * FROM workers WHERE salary > 400;
+
+SELECT * FROM workers WHERE id = 4;
+
+SELECT name,salary, extract("years" from age(birhday)) AS vozrast FROM workers
+WHERE name = 'Maria';
+
+SELECT * FROM workers WHERE name = 'Petya';
+
+SELECT name,salary, extract("years" from age(birhday)) AS vozrast FROM workers
+WHERE extract("years" from age(birhday)) >=30 OR salary > 800;
+
+
+SELECT name,salary, extract("years" from age(birhday)) AS vozrast FROM workers
+WHERE extract("years" from age(birhday)) BETWEEN 25 AND 28;
+
+
+SELECT name,salary, extract("months" from birhday) AS vozrast FROM workers
+WHERE extract("months" from birhday) = 9
+
+DELETE FROM workers 
+WHERE id = 4;
+
+DELETE FROm workers
+WHERE id = 1;
+
+DELETE FROM workers
+WHERE extract("years" from age(birhday)) >30
