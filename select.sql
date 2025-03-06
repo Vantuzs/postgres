@@ -531,3 +531,74 @@ SELECT customer_id FROM orders;
 SELECT id FROM users
 EXCEPT
 SELECT customer_id FROM orders;
+
+
+
+----- Соединение множеств - JOIN
+/* 
+
+Соединение множеств - операция которая обьединяет две или больше множеств в одно множество.
+
+ */
+
+SELECT * FROM A
+
+SELECT * FROM B
+
+SELECT A.v AS "id", A.t AS "price",B.v AS "phone.id" FROM A,B
+WHERE A.v = B.v;
+
+
+---
+
+
+SELECT * 
+FROM A JOIN B
+ON A.v = B.v;
+
+
+-- Задача: найти все заказы юзера, у которого id = 4505
+
+SELECT * 
+FROM users JOIN orders
+ON orders.customer_id = users.id
+WHERE users.id = 4505
+
+
+--------
+
+SELECT u.*, o.id AS "order_id"
+FROM users AS u JOIN orders AS o
+ON o.customer_id = u.id
+WHERE u.id = 4505;
+
+
+--------
+
+SELECT *
+FROM A JOIN B
+ON A.v = B.v
+JOIN products ON A.t = products.id;
+
+
+--- Найти id всех заказов, где были заказаны телефоны Samsung
+
+SELECT *
+FROM products AS p JOIN  orders_to_products AS otp
+ON p.id = otp.products_id 
+WHERE p.brand = 'Samsung';
+
+-- МОдифицируйте прошлый запрос. Посчитайте, сколько заказов бренда Самсунг
+SELECT count(*)
+FROM products AS p JOIN  orders_to_products AS otp
+ON p.id = otp.products_id 
+WHERE p.brand = 'Samsung';
+
+-- Сделать топ продаж. Какой бренд чаще покупали?
+
+SELECT p.brand,count(*) AS "quantity"
+FROM products AS p JOIN  orders_to_products AS otp
+ON p.id = otp.products_id 
+GROUP BY p.brand
+ORDER BY "quantity" DESC
+LIMIT 3;
