@@ -602,3 +602,32 @@ ON p.id = otp.products_id
 GROUP BY p.brand
 ORDER BY "quantity" DESC
 LIMIT 3;
+
+
+--- ЗАдача: найти юзеров которые ничего не заказывали
+
+-- вариант 1
+
+SELECT *
+FROM users AS u LEFT JOIN orders AS o
+ON u.id = o.customer_id
+WHERE o.customer_id IS NULL
+
+-- вариант 2
+
+SELECT * FROM users
+WHERE id IN (
+  SELECT id FROM users
+  EXCEPT
+  SELECT customer_id FROM orders
+)
+
+
+
+
+--- ЗАдача: найти всех узеров, и сумарное количество их заказов
+
+SELECT u.*, count(*)
+FROM users AS u JOIN orders AS o
+ON u.id = o.customer_id
+GROUP BY u.id
