@@ -491,7 +491,7 @@ ORDER BY
 -- INTERSECT - перетин множин
 -- (Все то, что есть и в А, и в В, в едином екземпляре)
 
--- РАзница:
+-- EXCEPT - РАзница:
 ---- А минус В - все с множини А минус общие елементы для А и В
 ---- В минус А - все из В минус общие елементы для А и В
 
@@ -507,3 +507,27 @@ SELECT * FROM B; -- ПОЛУЧИЛИ 3 ЕЛЕМЕНТА, КОТОРЫЕ ПОВТ
 SELECT v FROM A
 EXCEPT
 SELECT * FROM B; -- ПОЛУЧИМ ВСЕ ЕЛЕМЕНТЫ С ТАБЛИЦИ А, МИНУС ОБЩИЕ ЕЛЕМЕНТЫ В ТАБЛИЦЕ А И В
+
+
+
+
+
+INSERT INTO users (first_name,last_name,email,gender,is_subscribe,birthday)
+VALUES 
+('User 1', 'Test 1', 'enail1@gmail.com','male',true,'1990-09-10'),
+('User 2', 'Test 2', 'email2@gmail.com','female',true,'1999-09-12'),
+('User 3', 'Test 3', 'email3@gmail.com','male',false,'1999-09-12');
+
+
+
+-- Задача: найти id юзеров, которе делали заказы
+
+SELECT id FROM users
+INTERSECT
+SELECT customer_id FROM orders;
+
+-- Задача: найти id юзеров, которые не делали заказов
+
+SELECT id FROM users
+EXCEPT
+SELECT customer_id FROM orders;
