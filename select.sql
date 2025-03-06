@@ -419,3 +419,34 @@ WHERE id BETWEEN 4004 AND 4027;
 SELECT * FROM products
 ORDER BY quantity ASC
 LIMIT 3;
+
+SELECT * FROM products
+ORDER BY price ASC
+
+SELECT * FROM products
+ORDER BY quantity DESC
+LIMIT 5;
+
+
+
+-- Фильтрация груп
+
+/* 
+
+Задача: Найти количество пользователей в каждой вековой группе
+
+ */
+
+SELECT count(*), extract("years" from age(birthday)) AS "возрастная группа" FROM users
+GROUP BY "возрастная группа"
+ORDER BY "возрастная группа" DESC;
+
+/* 
+
+Модифицировать запрос таким образом, что бы остались только возрастные группы, где < 1000 пользователей
+
+ */
+
+SELECT count(*) AS "количество", extract("years" from age(birthday)) AS "возрастная группа" FROM users
+GROUP BY "возрастная группа"
+HAVING count(*) <1000;
