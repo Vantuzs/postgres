@@ -684,3 +684,71 @@ ON p.id = otp.products_id
 GROUP BY p.id
 ORDER BY "sum" DESC
 LIMIT 3;
+
+
+
+/* 
+
+1. Посчитать средний чек по всему магазу 
+
+2. Вытянуть все заказы выше среднего чека
+
+3. Вытянуть всех пользователей, у которых количество заказов выше среднего
+
+4. Вытянуть пользователей и колечество товаров, которые они заказывали (кол. заказов * quantity)
+
+*/
+
+-- 1
+
+SELECT avg(owc.cost) FROM (
+-- Запрос находит сумму каждого заказа
+SELECT otp.order_id, sum(p.price*p.quantity) AS cost FROM 
+orders_to_products AS otp JOIN products AS p
+ON otp.products_id = p.id 
+GROUP BY otp.order_id
+) AS owc;
+
+
+-- 2 -- Vatian 1
+
+SELECT owc.*FROM ( -- orders with cost
+-- Запрос находит сумму каждого заказа
+SELECT otp.order_id, sum(p.price*p.quantity) AS cost FROM 
+orders_to_products AS otp JOIN products AS p
+ON otp.products_id = p.id 
+GROUP BY otp.order_id
+) AS owc
+WHERE owc.cost > (
+  SELECT avg(owc.cost) FROM (
+  -- Запрос находит сумму каждого заказа
+  SELECT otp.order_id, sum(p.price*p.quantity) AS cost FROM 
+  orders_to_products AS otp JOIN products AS p
+  ON otp.products_id = p.id 
+  GROUP BY otp.order_id
+  ) AS owc
+)
+
+-- 2 -- Variant 2
+
+/* 
+
+WIth ...alias... AS table
+SELECT ....
+
+*/
+
+
+WITH orders_with_cost AS (
+  -- Запрос находит сумму каждого заказа
+SELECT otp.order_id, sum(p.price*p.quantity) AS cost FROM 
+orders_to_products AS otp JOIN products AS p
+ON otp.products_id = p.id 
+GROUP BY otp.order_id
+)
+
+SELECT * FROM orders_with_cost
+WHERE orders_with_cost.cost > (
+  -- запрос которые находит средний чек по всему магазу
+  SELECT avg(orders_with_cost.cost) FROM orders_with_cost
+)
