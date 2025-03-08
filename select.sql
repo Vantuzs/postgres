@@ -631,3 +631,56 @@ SELECT u.*, count(*)
 FROM users AS u JOIN orders AS o
 ON u.id = o.customer_id
 GROUP BY u.id
+
+
+
+INSERT INTO products (brand,model,category,price,quantity)
+VALUES ('Microsoft','12345','phones',200,2);
+
+
+/* 
+
+Задача 1.
+НАйдите телефоны которые никто никогда не покупал
+Подсказака. Обьедените таблицу orders_to_products и таблицу products.
+
+
+*/ 
+
+SELECT * 
+FROM products AS p LEFT JOIN orders_to_products AS otp
+ON p.id = otp.products_id
+WHERE otp.order_id IS NULL
+
+
+ /*
+
+Задача 2.
+Найти количество позиций в каждом заказе.
+Подсказка. Тут не нужно JOIN. Работаем с таблицей orders_to_products. 
+Нужно создать группу по order_id, и запустить на этой группе агрегатную функцию count
+
+*/
+
+Select  order_id,count(*)
+FROM orders_to_products AS otp 
+GROUP BY otp.order_id
+
+
+/*
+
+Задача3(***).
+Найти самый популярный товар.
+Подсказка.
+Учасники: products; orders_to_products
+Создат группу по id с таблици products. 
+Запустить агрегатную функцию sum по полю quantity с таблици orders_to_products.
+
+ */
+
+ Select p.brand,p.model, sum(otp.quantity) AS "sum"
+FROM products AS p JOIN orders_to_products AS otp
+ON p.id = otp.products_id
+GROUP BY p.id
+ORDER BY "sum" DESC
+LIMIT 3;
