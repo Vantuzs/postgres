@@ -71,3 +71,35 @@ SELECT *, (
         ELSE 'unkown'
     END
 ) FROM users;
+
+
+/* 
+
+ВЫвести юзеров, у которых в поле "стать_пропистью" будет прописано "муждчина", "женсчина", "другое"
+
+Задача 2
+
+Вывести все телефоны с таблици products
+Если цена больше 6000 - флагман
+Если цена от 2-6 тыс. - средний клас
+Если цена меньше 2 тыс. - бюджетный смартфон
+
+*/
+
+SELECT *,(
+    CASE gender
+        WHEN 'male' THEN 'муждчина'
+        WHEN 'female' THEN 'женсчина'
+        ELSE 'другое'
+    END
+) FROM users;
+
+
+SELECT *,(
+    CASE 
+        WHEN price>6000 THEN 'флагман'
+        WHEN price BETWEEN 2000 AND 6000 THEN 'средний клас'
+        WHEN price<2000 THEN 'бюджетный клас'
+        ELSE 'sigma BOY'
+    END
+) FROM products
