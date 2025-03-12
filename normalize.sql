@@ -87,3 +87,43 @@ students AS s JOIN students_to_teachers AS stt
 ON s.id = stt.student_id
 JOIN teachers AS t
 ON stt.teacher_id = t.id
+
+
+
+----------------------------------------------------------
+
+
+CREATE TABLE products_2(
+    id serial PRIMARY KEY,
+    name varchar(300) CHECK (name !='') NOT NULL,
+);
+
+CREATE TABLE manufacturers(
+    id serial PRIMARY KEY,
+    name varchar(400) CHECK (name !='') NOT NULL,
+    address text CHECK (address !='') NOT NULL,
+    tel_number varchar(20) CHECK (tel_number !='') NOT NULL
+);
+
+CREATE TABLE orders(
+    id serial PRIMARY KEY,
+    product_id int REFERENCES products_2(id),
+    quantity_plan int CHECK (quantity_plan >0) NOT NULL,
+    product_price decimal(10,2),
+    contsct_number varchar(30) NOT NULL,
+    contract_address text CHECK(contract_address !='') NOT NUll,
+    contract_date date NOT NULL,
+    manufacturer_id itn REFERENCES manufacturers(id)
+);
+
+CREATE TABLE shipments(
+    id serial PRIMARY KEY,
+    order_id itn REFERENCES orders(id),
+    shipment_date timestamp NOT NULL
+);
+
+CREATE TABLE products_2_to_shipments(
+    product_id int REFERENCES products_2(id),
+    shipment_id int REFERENCES shipments(id),
+    product_quantity int NOT NULL
+);
