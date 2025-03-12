@@ -161,3 +161,45 @@ users AS u  LEFT JOIN orders_with_price AS owp
 ON u.id = owp.customer_id
 GROUP BY u.id
 ORDER BY sum
+
+
+
+--------------------------------------------------------------------------------------------------
+
+-- FUNCTION
+
+/* 
+
+CREATE FUNCTION function_name ([parameter1 data_type],[parameter2 data_type], .... )
+RETURNS return_data_type
+AS
+$$
+BEGIN
+
+    -- Тело функции (операции)
+    RETURN result;
+
+END;
+$$
+LANGUAGE plpgsql -- Язык програмирования фукнции для Postgresql
+
+*/
+
+
+CREATE FUNCTION add_numbers (number1 integer, number2 integer)
+RETURNS integer
+AS
+$$
+BEGIN
+    RETURN number1 + number2;
+END;
+$$
+LANGUAGE plpgsql;
+
+-- Вызов функции
+
+SELECT add_numbers(10,5);
+
+-- Удаление функции
+
+DROP FUNCTION add_numbers(integer,integer);
