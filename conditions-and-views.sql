@@ -258,3 +258,62 @@ DROP FUNCTION refresh_materialized_view();
 SELECT refresh_materialized_view();
 
 
+--------------------------------------------------------------------------------------------------------
+
+
+/* 
+
+order -> status:
+- true = выполнен
+- false = не выполнено
+- 'processing'       ---- 'prosesing'
+- ('new','processing', 'shiped', 'done', 'canceled')
+
+*/
+
+
+
+INSERT INTO orders(customer_id,status) VALUES
+(6003,'new')
+
+CREATE TYPE order_status AS ENUM ('new','processing', 'shiped', 'done', 'canceled');
+
+ALTER TABLE orders
+ALTER COLUMN status 
+TYPE order_status
+USING(
+    CASE status
+    WHEN false THEN 'processing'
+    WHEN true THEN 'done'
+    ELSE 'new'
+    END
+)::order_status;
+
+
+SELECT * FROM orders
+ORDER BY created_at DESC
+
+UPDATE orders
+SET status = 'done'
+WHERE id = 50906
+
+
+
+DROP VIEW users_with_orders_amount;
+
+
+--------------------------------------------------------------------------------------------------
+
+
+/* 
+
+
+*/
+
+CREATE SCHEMA new_schema.users()
+
+CREATE TABLE new_schema.users(
+    first_name varchar(50) NOT NULL CHECK(first_name !=''),
+    last_name varchar(100) NOT NULL CHECK(last_name !=''),
+    email varchar(50) NOT NULL CHECK(email !='')
+)
